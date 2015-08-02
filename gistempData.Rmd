@@ -1,0 +1,72 @@
+---
+title: "GISTEMP data exploration"
+author: "Robert Jonczy"
+date: "02.08.2015"
+output: html_document
+---
+
+# Introduction
+
+In this data exploratory of Gistemp data we will focus on data visualisation.
+
+
+# Data
+Provided data set comes from [NASA](http://data.giss.nasa.gov/gistemp).
+
+
+# Data Visualisation
+
+* X-axis: Year
+* Y-axis: Deviations
+* Subset of data: Dataset contains observations between 1880-2014, for visualisation following years have been chosen: 1950-1990, for further analysis we will focus on 1960-1980, which were marke as START and STOP date
+* Seasons
+    + DJS season: December, January, February
+    + MAM season: March, April, May
+    + JJA season: June, July, August
+    + SON season: September, October, November
+
+```{r, echo=FALSE, warning=FALSE}
+suppressWarnings(suppressMessages(library(xts)))
+suppressWarnings(suppressMessages(library(dygraphs)))
+
+d1 <- read.csv('./data/ExcelFormattedGISTEMPDataCSV.csv', header = T, stringsAsFactors = F)
+d2 <- read.csv('./data/ExcelFormattedGISTEMPData2CSV.csv', header = T, stringsAsFactors = F)
+
+djf <- as.xts(ts(d1$DJF, start = 1950, end = 1990))
+mam <- as.xts(ts(d1$MAM, start = 1950, end = 1990))
+jja <- as.xts(ts(d1$JJA, start = 1950, end = 1990))
+son <- as.xts(ts(d1$SON, start = 1950, end = 1990))
+
+seasons <- cbind(DJF = djf, 
+                 MAM = mam, 
+                 JJA = jja, 
+                 SON = son)
+
+# plot graph using dygraphs package
+dygraph(seasons, 
+        main = "Seasonal variations of temperatures", 
+        xlab = "Year", 
+        ylab = "Deviation") %>%      
+    
+dyHighlight(highlightCircleSize = 3,                    
+            highlightSeriesBackgroundAlpha = 0.5,
+            highlightSeriesOpts = list(),
+            hideOnMouseOut = TRUE) %>%    
+    
+dyOptions(colors = RColorBrewer::brewer.pal(4, "Set1")) %>%
+dyEvent(date = "1960-01-01", "START", labelLoc = "bottom") %>%
+dyEvent(date = "1980-01-01", "STOP", labelLoc = "bottom") %>%
+dyRangeSelector()
+
+```
+
+
+
+# Technology
+
+I have used following R-packages:
+
+* [xts R-package](https://cran.r-project.org/web/packages/xts/index.html)
+* [dygraphs](https://cran.r-project.org/web/packages/dygraphs/index.html), Demo and short getting-started tutorial can be found [here](http://rstudio.github.io/dygraphs/index.html)
+
+
