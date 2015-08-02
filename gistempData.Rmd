@@ -5,21 +5,15 @@ date: "02.08.2015"
 output: html_document
 ---
 
-# Introduction
-
-In this data exploratory of Gistemp data we will focus on data visualisation.
-
-
 # Data
 Provided data set comes from [NASA](http://data.giss.nasa.gov/gistemp).
 
 
 # Data Visualisation
 
+* Subset of data: Dataset contains observations between 1880-2014, for visualisation following years have been chosen: 1950-1990, for further analysis we will focus on 1960-1980, which were mark as START and STOP date
 * X-axis: Year
-* Y-axis: Deviations
-* Subset of data: Dataset contains observations between 1880-2014, for visualisation following years have been chosen: 1950-1990, for further analysis we will focus on 1960-1980, which were marke as START and STOP date
-* Seasons
+* Y-axis: Deviations over seasons
     + DJS season: December, January, February
     + MAM season: March, April, May
     + JJA season: June, July, August
